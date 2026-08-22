@@ -19,6 +19,16 @@ public class Typewriter : MonoBehaviour
     [SerializeField] private Button[] buttons;
     private Dictionary<char, float> characterDelayDict = new Dictionary<char, float>();
 
+    private void OnEnable()
+    {
+        GameBus.OnMessage += Type;
+    }
+
+    private void OnDisable()
+    {
+        GameBus.OnMessage -= Type;
+    }
+
     private void Awake()
     {
         foreach (TypingCharacter typingCharacter in typingCharacters)
