@@ -23,17 +23,17 @@ public class Message
 [Serializable]
 public class Option
 {
-    public UnityAction OnChoosen;
+    public Action OnChosen;
     public string OptionDescription;
 
     public void Choose()
     {
-        OnChoosen?.Invoke();
+        OnChosen?.Invoke();
     }
 
-    public Option(string optionDesc, UnityAction onOptionChoosen = null)
+    public Option(string optionDesc, Action onOptionChosen = null)
     {
         OptionDescription = optionDesc;
-        OnChoosen = onOptionChoosen;
+        OnChosen = onOptionChosen;
     }
 }
