@@ -1,5 +1,7 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -16,6 +18,14 @@ public struct GameEffect
 {
     public EventType eventType;
     public int value;
+}
+
+public enum EndingType
+{
+    Execution,
+    Hanged,
+    Fired,
+    GoodEnding
 }
 
 public class GameManager : MonoBehaviour
@@ -74,7 +84,53 @@ public class GameManager : MonoBehaviour
     {
         if (dayCount >= 8)
         {
-            LoadSceneAsync("EndScene");
+            ChooseEnding();
+        }
+    }
+
+    private void ChooseEnding()
+    {
+        var endingParameters = new Dictionary<EndingType, int>
+        {
+            { EndingType.Execution, supervisorDiscontent },
+            { EndingType.Hanged, peopleDiscontent },
+            { EndingType.Fired, postInterest }
+        };
+
+        int max = endingParameters.Values.Max();
+
+        if (max < 3)
+        {
+            LoadEnding(EndingType.GoodEnding);
+            return;
+        }
+
+        var endings = endingParameters
+            .Where(x => x.Value == max)
+            .Select(x => x.Key)
+            .ToList();
+
+        EndingType end = endings[UnityEngine.Random.Range(0, endings.Count)];
+
+        LoadEnding(end);
+    }
+
+    private void LoadEnding(EndingType end)
+    {
+        switch (end)
+        {
+            case EndingType.Execution:
+                LoadSceneAsync("ExecutionEnd");
+                break;
+            case EndingType.Hanged:
+                LoadSceneAsync("HangedEnd");
+                break;
+            case EndingType.Fired:
+                LoadSceneAsync("FiredEnd");
+                break;
+            case EndingType.GoodEnding:
+                LoadSceneAsync("GoodEnd");
+                break;
         }
     }
 
