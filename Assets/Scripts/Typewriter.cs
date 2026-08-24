@@ -48,6 +48,9 @@ public class Typewriter : MonoBehaviour
 
     private void Update()
     {
+        if (UIManager.AnimationIsPlaying())
+            return;
+
         if (nextMessageAction.WasPressedThisFrame() && IsTyping())
         {
             text.text = currentMessage.Text;
@@ -89,6 +92,11 @@ public class Typewriter : MonoBehaviour
         text.maxVisibleCharacters = 0;
         while (text.maxVisibleCharacters < textToType.Length)
         {
+            if (UIManager.AnimationIsPlaying())
+            {
+                yield return null;
+                continue;
+            }
             text.maxVisibleCharacters++;
             char currentChar = textToType[text.maxVisibleCharacters - 1];
             yield return new WaitForSeconds(GetCharDelay(currentChar));
