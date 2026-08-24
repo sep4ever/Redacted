@@ -27,6 +27,8 @@ public class UIManager : MonoBehaviour
 
     IEnumerator DayChangeCoroutine(int dayCount)
     {
+        gameCanvasGroup.interactable = false;
+        dayOverlay.blocksRaycasts = true;
         dayAnimationPlaying = true;
         gameCanvasGroup.alpha = 0;
         dayCountText.text = dayCount < 8 ? $"День {dayCount}." : " ";
@@ -50,6 +52,9 @@ public class UIManager : MonoBehaviour
         t = 0f;
         dayOverlay.alpha = t;
         gameCanvasGroup.alpha = 1;
+
+        gameCanvasGroup.interactable = true;
+        dayOverlay.blocksRaycasts = false;
     }
     private static bool dayAnimationPlaying;
     public static bool AnimationIsPlaying()

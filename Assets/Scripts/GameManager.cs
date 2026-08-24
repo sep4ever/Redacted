@@ -74,7 +74,7 @@ public class GameManager : MonoBehaviour
     {
         if (dayCount >= 8)
         {
-            LoadSceneAsync("EndCutscene");
+            LoadSceneAsync("EndScene");
         }
     }
 
