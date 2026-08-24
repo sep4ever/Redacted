@@ -5,6 +5,7 @@ using TMPro;
 public class UIManager : MonoBehaviour
 {
     [SerializeField] private CanvasGroup dayOverlay;
+    [SerializeField] private CanvasGroup gameCanvasGroup;
     [SerializeField] private TMP_Text dayCountText;
     [SerializeField] private float fadeSpeed = 1f;
     [SerializeField] private float loadingDelay = 1f;
@@ -26,6 +27,7 @@ public class UIManager : MonoBehaviour
 
     IEnumerator DayChangeCoroutine(int dayCount)
     {
+        gameCanvasGroup.alpha = 0;
         dayCountText.text = $"День {dayCount}.";
         float t = 0f;
         while (t <= 1f)
@@ -36,7 +38,7 @@ public class UIManager : MonoBehaviour
         }
         t = 1f;
         yield return new WaitForSeconds(loadingDelay);
-        
+
         while (t >= 0f)
         {
             t -= Time.deltaTime * fadeSpeed;
@@ -45,5 +47,6 @@ public class UIManager : MonoBehaviour
         }
         t = 0f;
         dayOverlay.alpha = t;
+        gameCanvasGroup.alpha = 1;
     }
 }
