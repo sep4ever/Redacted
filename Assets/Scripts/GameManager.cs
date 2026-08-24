@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum EventType
 {
@@ -18,14 +20,35 @@ public struct GameEffect
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance;
     [SerializeField] private Message firstMessage;
 
     [SerializeField] private int supervisorDiscontent;   
     [SerializeField] private int peopleDiscontent;
     [SerializeField] private int postInterest;
 
-    private void Awake()
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    private static void CreateIfNeeded()
     {
+        if (Instance != null)
+            return;
+
+        GameObject manager = new GameObject("GameManager");
+        manager.AddComponent<GameManager>();
+    }
+
+    void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+
         GameBus.SendMessage(firstMessage);
     }
 
@@ -47,13 +70,38 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void CheckGameEnded(int dayCount)
+    {
+        if (dayCount >= 8)
+        {
+            LoadSceneAsync("EndCutscene");
+        }
+    }
+
+    private void LoadSceneAsync(string sceneName)
+    {
+        StartCoroutine(LoadSceneCoroutine(sceneName));
+    }
+
+    private IEnumerator LoadSceneCoroutine(string sceneName)
+    {
+        AsyncOperation sceneLoad = SceneManager.LoadSceneAsync(sceneName);
+
+        while (!sceneLoad.isDone)
+        {
+            yield return null;
+        }
+    } 
+
     private void OnEnable()
     {
         GameBus.OnEffectRequested += ApplyGameEffect;
+        GameBus.OnDayChange += CheckGameEnded;
     }
 
     private void OnDisable()
     {
         GameBus.OnEffectRequested -= ApplyGameEffect;
+        GameBus.OnDayChange -= CheckGameEnded;
     }
 }

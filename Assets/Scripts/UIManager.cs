@@ -29,7 +29,7 @@ public class UIManager : MonoBehaviour
     {
         dayAnimationPlaying = true;
         gameCanvasGroup.alpha = 0;
-        dayCountText.text = $"День {dayCount}.";
+        dayCountText.text = dayCount < 8 ? $"День {dayCount}." : " ";
         float t = 0f;
         while (t <= 1f)
         {
