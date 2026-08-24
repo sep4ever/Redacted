@@ -61,4 +61,10 @@ public class UIManager : MonoBehaviour
     {
         return dayAnimationPlaying;
     }
+
+    //функция для привязки к кнопкам.
+    public void LoadScene(string sceneName)
+    {
+        GameManager.Instance.LoadSceneAsync(sceneName);
+    }
 }

@@ -78,7 +78,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void LoadSceneAsync(string sceneName)
+    public void LoadSceneAsync(string sceneName)
     {
         StartCoroutine(LoadSceneCoroutine(sceneName));
     }
