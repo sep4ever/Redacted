@@ -19,6 +19,7 @@ public class Message : ScriptableObject
     }
 }
 
+//Хардкодить смену дня это, конечно, так себе решение, но для геймджема пойдёт.
 [Serializable]
 public class Option
 {
@@ -26,6 +27,8 @@ public class Option
     public Action OnChosen;
     public string OptionDescription;
     public Message NextMessage;
+    public int dayCount;
+    public bool triggerDayChange;
 
     public void Choose()
     {
@@ -33,6 +36,9 @@ public class Option
         GameBus.RequestEffect(optionEffect);
         if (NextMessage != null)
             GameBus.SendMessage(NextMessage);
+        
+        if (triggerDayChange)
+            GameBus.TriggerDayChange(dayCount);
     }
 
     public Option(string optionDesc, Action onOptionChosen = null, Message nextMessage = null)

@@ -5,7 +5,8 @@ public enum EventType
 {
     SupervisorDiscontent,
     PeopleDiscontent,
-    PostInterest
+    PostInterest,
+    None
 }
 
 [Serializable]
