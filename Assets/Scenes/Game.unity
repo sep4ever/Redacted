@@ -845,7 +845,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5efd5c87ea5bb13d9bf807e3b8abcbac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
-  firstMessage: {fileID: 11400000, guid: bab67c33c3f85e82bb9de8988c987627, type: 2}
+  firstMessage: {fileID: 11400000, guid: 989288186e43ed8c99fb5833c74ce85c, type: 2}
   supervisorDiscontent: 0
   peopleDiscontent: 0
   postInterest: 0
