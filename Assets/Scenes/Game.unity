@@ -522,6 +522,15 @@ MonoBehaviour:
   buttons:
   - {fileID: 1262236032}
   - {fileID: 124575708}
+  nextMessageAction:
+    m_Name: Next Message
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 46528432-4180-4fa4-aba6-a6141918261c
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
 --- !u!4 &584112076
 Transform:
   m_ObjectHideFlags: 0
@@ -788,6 +797,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   firstMessage: {fileID: 11400000, guid: bab67c33c3f85e82bb9de8988c987627, type: 2}
+  supervisorDiscontent: 0
+  peopleDiscontent: 0
+  postInterest: 0
 --- !u!4 &852550950
 Transform:
   m_ObjectHideFlags: 0

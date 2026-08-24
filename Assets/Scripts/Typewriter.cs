@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 //ИМХО отдельный struct читаемее.
@@ -17,7 +18,9 @@ public class Typewriter : MonoBehaviour
     [SerializeField] private TMP_Text text;
     [SerializeField] private TypingCharacter[] typingCharacters;
     [SerializeField] private Button[] buttons;
+    [SerializeField] private InputAction nextMessageAction;    
     private Dictionary<char, float> characterDelayDict = new Dictionary<char, float>();
+    private Message currentMessage;
 
     private void OnEnable()
     {
@@ -35,11 +38,30 @@ public class Typewriter : MonoBehaviour
         {
             characterDelayDict.Add(typingCharacter.Character, typingCharacter.CharDelay);
         }
+        nextMessageAction = FindAnyObjectByType<PlayerInput>().actions["Next"];
+    }
+
+    private bool IsTyping()
+    {
+        return typingCoroutine != null;
+    }
+
+    private void Update()
+    {
+        if (nextMessageAction.WasPressedThisFrame() && IsTyping())
+        {
+            text.text = currentMessage.Text;
+            text.maxVisibleCharacters = currentMessage.Text.Length;
+            StopCoroutine(typingCoroutine);
+            typingCoroutine = null;
+            return;
+        }
     }
 
     private Coroutine typingCoroutine;
     public void Type(Message message)
     {
+        currentMessage = message;
         foreach (Button button in buttons)
         {
             button.gameObject.SetActive(false);
