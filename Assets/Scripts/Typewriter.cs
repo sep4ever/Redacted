@@ -18,7 +18,9 @@ public class Typewriter : MonoBehaviour
     [SerializeField] private TMP_Text text;
     [SerializeField] private TypingCharacter[] typingCharacters;
     [SerializeField] private Button[] buttons;
-    [SerializeField] private InputAction nextMessageAction;    
+    [SerializeField] private InputAction nextMessageAction;
+    [SerializeField] private AudioClip typingSFX;
+    private AudioSource typewriterAudioSource;
     private Dictionary<char, float> characterDelayDict = new Dictionary<char, float>();
     private Message currentMessage;
 
@@ -39,6 +41,7 @@ public class Typewriter : MonoBehaviour
             characterDelayDict.Add(typingCharacter.Character, typingCharacter.CharDelay);
         }
         nextMessageAction = FindAnyObjectByType<PlayerInput>().actions["Next"];
+        typewriterAudioSource = GetComponent<AudioSource>();
     }
 
     private bool IsTyping()
@@ -99,10 +102,21 @@ public class Typewriter : MonoBehaviour
             }
             text.maxVisibleCharacters++;
             char currentChar = textToType[text.maxVisibleCharacters - 1];
+            PlayTypingSound();
             yield return new WaitForSeconds(GetCharDelay(currentChar));
         }
         text.maxVisibleCharacters = textToType.Length;
         typingCoroutine = null;
+    }
+
+    private void PlayTypingSound()
+    {
+        if (typewriterAudioSource != null && typingSFX != null)
+        {
+            float pitch = Random.Range(0.8f, 1.1f);
+            typewriterAudioSource.pitch = pitch;
+            typewriterAudioSource.PlayOneShot(typingSFX);
+        }
     }
 
     private float GetCharDelay(char character)
