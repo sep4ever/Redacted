@@ -60,7 +60,8 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
 
-        GameBus.SendMessage(firstMessage);
+        if (firstMessage != null)
+            GameBus.SendMessage(firstMessage);
     }
 
     private void ApplyGameEffect(GameEffect gameEffect)
