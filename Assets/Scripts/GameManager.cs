@@ -60,9 +60,8 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
 
-        if (firstMessage != null && SceneManager.GetActiveScene().name == "Game")
+        if (firstMessage != null)
         {
-            Debug.Log(SceneManager.GetActiveScene().name);
             GameBus.SendMessage(firstMessage);
         }
     }
