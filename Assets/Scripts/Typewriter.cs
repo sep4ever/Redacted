@@ -20,14 +20,11 @@ public class Typewriter : MonoBehaviour
     [SerializeField] private Button[] buttons;
     [SerializeField] private InputAction nextMessageAction;
     [SerializeField] private AudioClip typingSFX;
+    private UIManager uiManager;
     private AudioSource typewriterAudioSource;
     private Dictionary<char, float> characterDelayDict = new Dictionary<char, float>();
     private Message currentMessage;
 
-    private void OnEnable()
-    {
-        GameBus.OnMessage += Type;
-    }
 
     private void OnDisable()
     {
@@ -42,6 +39,8 @@ public class Typewriter : MonoBehaviour
         }
         nextMessageAction = FindAnyObjectByType<PlayerInput>().actions["Next"];
         typewriterAudioSource = GetComponent<AudioSource>();
+        uiManager = FindAnyObjectByType<UIManager>();
+        GameBus.OnMessage += Type;
     }
 
     private bool IsTyping()
@@ -51,8 +50,9 @@ public class Typewriter : MonoBehaviour
 
     private void Update()
     {
-        if (UIManager.AnimationIsPlaying())
-            return;
+        if (uiManager != null)
+            if (uiManager.AnimationIsPlaying())
+                return;
 
         if (nextMessageAction.WasPressedThisFrame() && IsTyping())
         {
@@ -95,11 +95,12 @@ public class Typewriter : MonoBehaviour
         text.maxVisibleCharacters = 0;
         while (text.maxVisibleCharacters < textToType.Length)
         {
-            if (UIManager.AnimationIsPlaying())
-            {
-                yield return null;
-                continue;
-            }
+            if (uiManager != null)
+                if (uiManager.AnimationIsPlaying())
+                {
+                    yield return null;
+                    continue;
+                }
             text.maxVisibleCharacters++;
             char currentChar = textToType[text.maxVisibleCharacters - 1];
             PlayTypingSound();

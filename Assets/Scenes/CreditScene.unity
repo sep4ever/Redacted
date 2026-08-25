@@ -447,6 +447,7 @@ GameObject:
   m_Component:
   - component: {fileID: 845863347}
   - component: {fileID: 845863346}
+  - component: {fileID: 845863348}
   m_Layer: 0
   m_Name: TitleRequester
   m_TagString: Untagged
@@ -467,6 +468,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IntroWriter
   startingMessage: {fileID: 11400000, guid: b89f561eebdcf6336ae580177b6fe525, type: 2}
+  sendAtStart: 0
 --- !u!4 &845863347
 Transform:
   m_ObjectHideFlags: 0
@@ -476,12 +478,42 @@ Transform:
   m_GameObject: {fileID: 845863345}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 311.7706, y: 264.06894, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &845863348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 845863345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Timeline::UnityEngine.Timeline.SignalReceiver
+  m_Events:
+    m_Signals:
+    - {fileID: 11400000, guid: 52c4deecf25bfe108b66114e7cdf0d9d, type: 2}
+    m_Events:
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 845863346}
+          m_TargetAssemblyTypeName: IntroWriter, Assembly-CSharp
+          m_MethodName: SendMessage
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1001 &1262958041
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -535,9 +567,21 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8660188167481537182, guid: 76f599c45e6f33f788dc0872dc6d4ebc, type: 3}
+      propertyPath: m_SceneBindings.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8660188167481537182, guid: 76f599c45e6f33f788dc0872dc6d4ebc, type: 3}
+      propertyPath: m_SceneBindings.Array.data[3].key
+      value: 
+      objectReference: {fileID: 1302263167015843472, guid: 25d1eee768df4c23a9aeb4f997b5fa7b, type: 2}
+    - target: {fileID: 8660188167481537182, guid: 76f599c45e6f33f788dc0872dc6d4ebc, type: 3}
       propertyPath: m_SceneBindings.Array.data[2].value
       value: 
       objectReference: {fileID: 773514250}
+    - target: {fileID: 8660188167481537182, guid: 76f599c45e6f33f788dc0872dc6d4ebc, type: 3}
+      propertyPath: m_SceneBindings.Array.data[3].value
+      value: 
+      objectReference: {fileID: 845863348}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -800,8 +844,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -225.75, y: 0}
-  m_SizeDelta: {x: 451.5, y: 508}
+  m_AnchoredPosition: {x: -160, y: 0}
+  m_SizeDelta: {x: 320, y: 360}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1602745079
 MonoBehaviour:
@@ -951,12 +995,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
-  m_UiScaleMode: 0
-  m_ReferencePixelsPerUnit: 100
+  m_UiScaleMode: 1
+  m_ReferencePixelsPerUnit: 1
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 640, y: 360}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -1013,7 +1057,7 @@ SceneRoots:
   - {fileID: 1530245951}
   - {fileID: 1783764407}
   - {fileID: 121449292}
-  - {fileID: 773514249}
-  - {fileID: 1262958041}
   - {fileID: 1360702097}
   - {fileID: 845863347}
+  - {fileID: 773514249}
+  - {fileID: 1262958041}

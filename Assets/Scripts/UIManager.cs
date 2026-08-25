@@ -56,8 +56,8 @@ public class UIManager : MonoBehaviour
         gameCanvasGroup.interactable = true;
         dayOverlay.blocksRaycasts = false;
     }
-    private static bool dayAnimationPlaying;
-    public static bool AnimationIsPlaying()
+    private bool dayAnimationPlaying;
+    public bool AnimationIsPlaying()
     {
         return dayAnimationPlaying;
     }

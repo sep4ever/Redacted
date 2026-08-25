@@ -60,8 +60,11 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
 
-        if (firstMessage != null)
+        if (firstMessage != null && SceneManager.GetActiveScene().name == "Game")
+        {
+            Debug.Log(SceneManager.GetActiveScene().name);
             GameBus.SendMessage(firstMessage);
+        }
     }
 
     private void ApplyGameEffect(GameEffect gameEffect)
@@ -75,7 +78,7 @@ public class GameManager : MonoBehaviour
                 peopleDiscontent += gameEffect.value;
                 break;
             case EventType.PostInterest:
-                postInterest += gameEffect.value;
+                postInterest -= gameEffect.value;
                 break;
             default:
                 break;
