@@ -67,4 +67,8 @@ public class UIManager : MonoBehaviour
     {
         GameManager.Instance.LoadSceneAsync(sceneName);
     }
+    public void LoadSceneDirect(string sceneName)
+    {
+        GameManager.Instance.StartLoadSceneCoroutine(sceneName);
+    }
 }

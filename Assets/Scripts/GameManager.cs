@@ -30,6 +30,7 @@ public enum EndingType
 
 public class GameManager : MonoBehaviour
 {
+    public static event Action<string> OnSceneLoadRequested;
     public static GameManager Instance;
     [SerializeField] private Message firstMessage;
 
@@ -135,6 +136,10 @@ public class GameManager : MonoBehaviour
     }
 
     public void LoadSceneAsync(string sceneName)
+    {
+        OnSceneLoadRequested.Invoke(sceneName);
+    }
+    public void StartLoadSceneCoroutine(string sceneName)
     {
         StartCoroutine(LoadSceneCoroutine(sceneName));
     }
