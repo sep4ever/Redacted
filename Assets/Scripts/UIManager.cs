@@ -1,0 +1,74 @@
+using System.Collections;
+using UnityEngine;
+using TMPro;
+
+public class UIManager : MonoBehaviour
+{
+    [SerializeField] private CanvasGroup dayOverlay;
+    [SerializeField] private CanvasGroup gameCanvasGroup;
+    [SerializeField] private TMP_Text dayCountText;
+    [SerializeField] private float fadeSpeed = 1f;
+    [SerializeField] private float loadingDelay = 1f;
+
+    private void OnEnable()
+    {
+        GameBus.OnDayChange += PlayDayChangeAnim;
+    }
+
+    private void OnDisable()
+    {
+        GameBus.OnDayChange -= PlayDayChangeAnim;
+    }
+
+    private void PlayDayChangeAnim(int dayCount)
+    {
+        StartCoroutine(DayChangeCoroutine(dayCount));
+    }
+
+    IEnumerator DayChangeCoroutine(int dayCount)
+    {
+        gameCanvasGroup.interactable = false;
+        dayOverlay.blocksRaycasts = true;
+        dayAnimationPlaying = true;
+        gameCanvasGroup.alpha = 0;
+        dayCountText.text = dayCount < 8 ? $"День {dayCount}." : " ";
+        float t = 0f;
+        while (t <= 1f)
+        {
+            t += Time.deltaTime * fadeSpeed;
+            dayOverlay.alpha = t;
+            yield return null;
+        }
+        t = 1f;
+        yield return new WaitForSeconds(loadingDelay);
+
+        while (t >= 0f)
+        {
+            t -= Time.deltaTime * fadeSpeed;
+            dayOverlay.alpha = t;
+            yield return null;
+        }
+        dayAnimationPlaying = false;
+        t = 0f;
+        dayOverlay.alpha = t;
+        gameCanvasGroup.alpha = 1;
+
+        gameCanvasGroup.interactable = true;
+        dayOverlay.blocksRaycasts = false;
+    }
+    private bool dayAnimationPlaying;
+    public bool AnimationIsPlaying()
+    {
+        return dayAnimationPlaying;
+    }
+
+    //функция для привязки к кнопкам.
+    public void LoadScene(string sceneName)
+    {
+        GameManager.Instance.LoadSceneAsync(sceneName);
+    }
+    public void LoadSceneDirect(string sceneName)
+    {
+        GameManager.Instance.StartLoadSceneCoroutine(sceneName);
+    }
+}
